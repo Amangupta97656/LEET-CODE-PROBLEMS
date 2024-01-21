@@ -1,14 +1,13 @@
 class Solution {
-  public int rob(int[] nums) {
-    int prev1 = 0;
-    int prev2 = 0;
-
-    for (final int num : nums) {
-      final int dp = Math.max(prev1, prev2 + num);
-      prev2 = prev1;
-      prev1 = dp;
+    public int rob(int[] nums) {
+        int rob = 0;
+        int norob = 0;
+        for (int i = 0; i < nums.length; i ++) {
+            int newRob = norob + nums[i];
+            int newNoRob = Math.max(norob, rob);
+            rob = newRob;
+            norob = newNoRob;
+        }
+        return Math.max(rob, norob);
     }
-
-    return prev1;
-  }
 }
