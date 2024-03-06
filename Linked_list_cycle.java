@@ -1,14 +1,21 @@
 public class Solution {
-    public boolean hasCycle(ListNode headNode) {
-        ListNode fastPointer = headNode;
-        ListNode slowPointer = headNode;
-        while (fastPointer != null && fastPointer.next != null) {
-            fastPointer = fastPointer.next.next;
-            slowPointer = slowPointer.next;
-            if(slowPointer == fastPointer) {
-            return true;
+    public boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if (slow == fast) {
+                return true;
             }
         }
+
         return false;
     }
 }
