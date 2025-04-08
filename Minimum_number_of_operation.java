@@ -1,20 +1,27 @@
 class Solution {
-    public int[] minOperations(String boxes) {
-        int n = boxes.length();
-        int[] res = new int[n];
-        int count = 0, x = 0;
-        for (int i = 0; i < n; i++) {
-            res[i] = count;
-            x += boxes.charAt(i) - '0';
-            count += x;
+    public int minimumOperations(int[] nums) {
+        Set<Integer> set=new HashSet<>();
+        int n=nums.length;
+        int count=0;
+        int ans=0;
+        for(int i=n-1;i>=0;i--){
+            if(set.contains(nums[i])){  // start from last and find for duplicate
+                int remove=n-count; // using last n unique elemnts find count of
+                                    // elements needed to remove
+                if(remove % 3 == 0){
+                    ans=remove/3;
+                }
+                else{
+                    ans=(remove/3)+1;
+                }
+                return ans;
+            }
+            else{
+                set.add(nums[i]);
+                count++;
+            }
         }
-        count = 0;
-        x = 0;
-        for (int i = n - 1; i >= 0; i--) {
-            res[i] += count;
-            x += boxes.charAt(i) - '0';
-            count += x;
-        }
-        return res;
+        return ans;
+        
     }
 }
