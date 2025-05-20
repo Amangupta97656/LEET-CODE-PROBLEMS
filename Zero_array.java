@@ -1,27 +1,23 @@
 class Solution {
-    public int minZeroArray(int[] nums, int[][] queries) {
-        
-        int[] diff=new int[nums.length+1];
-        int pos=0,sum=0;
-        for(int i=0;i<nums.length;i++){
-            while(sum+diff[i]<nums[i]){
-                if(pos==queries.length) return -1; 
-                
-                int st=queries[pos][0];
-                int end=queries[pos][1];
-                int val=queries[pos][2];
+    public boolean isZeroArray(int[] nums, int[][] queries) {
 
-                if(end<i) {
-                    pos++;
-                    continue;
-                }
-                diff[Math.max(i,st)]+=val;
-                diff[end+1]-=val;
-                
-                pos++;
-            }
-            sum+=diff[i];
+        int diff[] = new int[nums.length+1];
+        for (int j = 0; j < queries.length; j++) {
+            int start = queries[j][0];
+            int end = queries[j][1];
+            diff[start]--;
+            diff[end+1]++;
         }
-        return pos;
-    }
+    
+
+    int curr=0;
+    for(int i = 0;i<nums.length;i++)
+    {
+        curr += diff[i];
+        if (nums[i] + curr > 0)
+            return false;
+    
+    }return true;
+
+}
 }
