@@ -1,28 +1,35 @@
-public class Solution {
-    public int longestPalindrome(String s) {
-        // Initialize a set to keep track of characters with odd frequencies
-        HashSet<Character> charSet = new HashSet<>();
-        // Initialize the length of the longest palindrome
+class Solution {
+    public int longestPalindrome(String[] words) {
+        HashMap<String,Integer> map = new HashMap<>();
+        HashSet<String> set = new HashSet<>();
         int length = 0;
-        
-        // Iterate over each character in the string
-        for (char c : s.toCharArray()) {
-            // If the character is already in the set, remove it and increase the length by 2
-            if (charSet.contains(c)) {
-                charSet.remove(c);
-                length += 2;
-            } else {
-                // If the character is not in the set, add it to the set
-                charSet.add(c);
+        boolean hasCentre = false;
+
+        for(String word : words){
+            map.put(word, map.getOrDefault(word,0)+1);
+        }
+        for(Map.Entry<String,Integer> entry : map.entrySet()){
+            String word = entry.getKey();                                                                                                                                                                                       
+            String reversedWord = new StringBuilder(word).reverse().toString(); 
+
+            if(word.equals(reversedWord)&& !set.contains(word)){
+                int countNumberOfWords = map.get(word);
+                length+=countNumberOfWords/2  * 4;
+                if(countNumberOfWords % 2 == 1){
+                    hasCentre = true;
+                }
+                set.add(word);
+                
+            }else if(!set.contains(word) && !set.contains(reversedWord) && map.containsKey(reversedWord)){
+                int minNumberOfWords = Math.min(map.get(reversedWord),map.get(word));
+                length+=minNumberOfWords*4;
+                set.add(word);
+                set.add(reversedWord);
             }
         }
-        
-        // If there are any characters left in the set, add 1 to the length for the middle character
-        if (!charSet.isEmpty()) {
-            length += 1;
+        if(hasCentre){
+            length+=2;
         }
-        
-        // Return the total length of the longest palindrome
         return length;
     }
 }
